@@ -117,7 +117,7 @@ public class Queue<Item> implements Iterable<Item> {
         return s.toString();
     } 
 
-    /**
+    /**s
      * Returns an iterator that iterates over the items in this queue in FIFO order.
      *
      * @return an iterator that iterates over the items in this queue in FIFO order

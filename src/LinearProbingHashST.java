@@ -1,9 +1,9 @@
-public class LinearProbingHashST<String, Integer>
+public class LinearProbingHashST<Key, Value>
 {
 	private int N; // number of key-value pairs in the table
 	private int M ; // size of linear-probing table
-	private String[] keys; // the keys
-	private Integer[] vals; // the values
+	private Key[] keys; // the keys
+	private Value[] vals; // the values
 	
 	
 	public int getM() {
@@ -15,25 +15,25 @@ public class LinearProbingHashST<String, Integer>
 	public LinearProbingHashST(int cap)
 	{
 		M=cap;
-		keys = (String[]) new Object[M];
-		vals = (Integer[]) new Object[M];
+		keys = (Key[]) new Object[M];
+		vals = (Value[]) new Object[M];
 	}
-	private int hash(String key)
+	private int hash(Key key)
 	{ return (key.hashCode() & 0x7fffffff) % M; }
 
-	public void put(String key, Integer val)
+	public void put(Key key, Value val)
 	{
 		
 		if (N >= M/2) resize(2*M); // double M (see text)
 		int i;
 		for (i = hash(key); keys[i] != null; i = (i + 1) % M)
-			if (keys[i].equals(key)) { vals[i] = (Integer) val; return; }
-		keys[i] = (String) key;
-		vals[i] = (Integer) val;
+			if (keys[i].equals(key)) { vals[i] = (Value) val; return; }
+		keys[i] = (Key) key;
+		vals[i] = (Value) val;
 		N++;
 		System.out.println("nice + "+ key+" + "+hash(key));
 	}
-	public Integer get(String key)
+	public Value get(Key key)
 	{
 		for (int i = hash(key); keys[i] != null; i = (i + 1) % M)
 			if (keys[i].equals(key))
@@ -45,8 +45,8 @@ public class LinearProbingHashST<String, Integer>
 	{
 		System.out.print("resizinggg \t");
 		cap=M*2;
-		LinearProbingHashST<String, Integer> t;
-		t = new LinearProbingHashST<String, Integer>(cap);
+		LinearProbingHashST<Key, Value> t;
+		t = new LinearProbingHashST<Key, Value>(cap);
 		
 		System.out.println(t.M);
 		for (int i = 0; i < M; i++)

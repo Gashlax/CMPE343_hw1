@@ -1,23 +1,26 @@
+
+
 public class SequentialSearchST<Key, Value> {
 	private int n;           // number of key-value pairs
-	private Node first;      // the linked list of key-value pairs
-
+	public Node first;      // the linked list of key-value pairs
+	public Node current;
 	// a helper linked list data type
-	private class Node {
-		private Key key;
-		private Value val;
-		private Node next;
-		private int repeat;
-
-		public Node(Key key, Value val, Node next)  {
-			
-			this.key  = key;
-			this.val  = val;
-			this.next = next;
-			repeat=1;
-		}
-	}
-
+//	public class Node {
+//		public Key key;
+//		public Value val;
+//		public Node next;
+//		public int repeat;
+//
+//		public Node(Key key, Value val, Node next)  {
+//			current=null;
+//			this.key  = key;
+//			this.val  = val;
+//			this.next = next;
+//			repeat=1;
+//		}
+//	}
+	
+	
 	/**
 	 * Initializes an empty symbol table.
 	 */
@@ -59,9 +62,17 @@ public class SequentialSearchST<Key, Value> {
 	public Value get(Key key) {
 		for (Node x = first; x != null; x = x.next) {
 			if (key.equals(x.key))
-				return x.val;
+				return (Value) x.val;
 		}
 		return null;
+	}
+	
+	public int getRep(Key key) {
+		for (Node x = first; x != null; x = x.next) {
+			if (key.equals(x.key))
+				return x.repeat;
+		}
+		return -1;
 	}
 
 	/**
@@ -103,8 +114,39 @@ public class SequentialSearchST<Key, Value> {
 			n++;
 			return true;
 		}
+	}
+	
+	public boolean put(Key key, Value val, int res) {
+	
+		if(first==null) {
+			first = new Node(key, val, null);
+			first.repeat=res;
+			return true;
+		}else {
+			Node x ;
 
+			x=first;
+			Node pre = null;
+			//System.out.println("x Node: asdasd"+x.key);
+			while(x!=null) {
+				//System.out.println("x Node: "+x);
+				if (key.equals(x.key)) {
+					x.val = val;
+					x.repeat++;
+					System.out.println("repeat "+x.key+" "+ +x.repeat);
+					return false;
+				}
+				pre=x;
+				x=x.next;
+			}
 
+			//System.out.println("x Node: "+x);
+			Node add= new Node(key, val, null);
+			add.repeat=res;
+			pre.next=add;
+			n++;
+			return true;
+		}
 	}
 
 	/**
@@ -138,7 +180,11 @@ public class SequentialSearchST<Key, Value> {
 	public Iterable<Key> keys()  {
 		Queue<Key> queue = new Queue<Key>();
 		for (Node x = first; x != null; x = x.next)
-			queue.enqueue(x.key);
+			queue.enqueue((Key) x.key);
 		return queue;
 	}
+
+
+	
+	
 }

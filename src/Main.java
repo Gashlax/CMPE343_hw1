@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Main {
 
@@ -9,9 +10,10 @@ public class Main {
 		st = new SeparateChainingHashST<String, Integer>(16);
 		
 		for(int i=0;i<args.length;i++) {  
-			//t.put(args[i], args[i].hashCode());
+			t.put(args[i], args[i].hashCode());
 			st.put(args[i], args[i].hashCode());
 		} 
+		ArrayList<Node> Maxs = new ArrayList<Node>(3);
 
 //		String test ="world";
 //		System.out.println(test.hashCode());
@@ -41,7 +43,11 @@ public class Main {
 		
 		System.out.println("max cap1 "+ st.getM());
 		System.out.println("max cap "+ t.getM());
+		System.out.println("\n");
+		Maxs=st.FindMaxs();
+		int m=t.get(Maxs.get(0).key.toString());
 		
+		System.out.println("\n\n m "+ m%t.getM());
 	}
 
 }
