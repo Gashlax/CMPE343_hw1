@@ -73,7 +73,7 @@ public class SeparateChainingHashST<Key, Value> {
         if(st[i].put(key, val)) {
         	System.out.println(key+" "+i);
         }else {
-        	System.out.println("repeat");
+        	System.out.println("repeattt");
         }
         
     }
