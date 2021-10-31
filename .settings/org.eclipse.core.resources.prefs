@@ -1,2 +1,8 @@
 eclipse.preferences.version=1
+encoding//src/LinearProbingHashST.java=UTF-8
 encoding//src/Main.java=UTF-8
+encoding//src/Node.java=UTF-8
+encoding//src/Queue.java=UTF-8
+encoding//src/SeparateChainingHashST.java=UTF-8
+encoding//src/SequentialSearchST.java=UTF-8
+encoding//src/Tester.java=UTF-8

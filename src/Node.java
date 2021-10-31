@@ -1,3 +1,14 @@
+//-----------------------------------------------------
+// Title: Node Class
+// Author: Gökmen ÇAĞLAR
+// ID: 12590403284
+// Section: 1
+// Assignment: 1
+// Description: It is the most basic Node class
+//-----------------------------------------------------
+//I used to create my linked list 
+
+
 public class Node<Key, Value> {
 	public Key key;
 	public Value val;

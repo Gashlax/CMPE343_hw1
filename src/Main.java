@@ -1,53 +1,78 @@
+
+//-----------------------------------------------------
+// Title: Main
+// Author: Gökmen ÇAĞLAR
+// ID: 12590403284
+// Section: 1
+// Assignment: 1
+// Description: This is the main class that homework specifications asked for.
+//-----------------------------------------------------
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!! I make my tests, memory usage and time elapsed tests in my Tester.java class.
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 import java.util.ArrayList;
+import java.util.Scanner; // Import the Scanner class to read text files
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		LinearProbingHashST<String, Integer> t;
-		t = new LinearProbingHashST<String, Integer>(16);
-		SeparateChainingHashST<String, Integer> st;
-		st = new SeparateChainingHashST<String, Integer>(16);
 		
-		for(int i=0;i<args.length;i++) {  
-			t.put(args[i], args[i].hashCode());
-			st.put(args[i], args[i].hashCode());
-		} 
-		ArrayList<Node> Maxs = new ArrayList<Node>(3);
+		//Created my hash tables
+		LinearProbingHashST<String, Integer> linearProbing;
+		linearProbing = new LinearProbingHashST<String, Integer>(16);
+		SeparateChainingHashST<String, Integer> separateChaining;
+		separateChaining = new SeparateChainingHashST<String, Integer>(16);
+		String[] splited;
+		//I used scanner here 
 
-//		String test ="world";
-//		System.out.println(test.hashCode());
-//		t.put(test, test.hashCode());
-//		t.put("dog", test.hashCode());
-//		t.put("cat", test.hashCode());
-//		t.put("car", test.hashCode());
-//		t.put("window", test.hashCode());
-//		t.put("windows", test.hashCode());
-//		t.put("windo", test.hashCode());
-//		t.put("ted", test.hashCode());
-//		t.put("cmpe", test.hashCode());
-//		t.put("242", test.hashCode());
-//		t.put("accommodate", test.hashCode());
-//		t.put("synonyms", test.hashCode());
-//		t.put("accommodating", test.hashCode());
-//		t.put("accommodation", test.hashCode());
-//		t.put("accordionist", test.hashCode());
-//		t.put("accordion", test.hashCode());
-//		t.put("pleats", test.hashCode());
-//		t.put("accoucheur's", test.hashCode());
-//		t.put("hand", test.hashCode());
-//		t.put("accoucheuse", test.hashCode());
-//		t.put("according", test.hashCode());
-//		t.put("as", test.hashCode());
+		Scanner myReader = new Scanner(System.in);
+		System.out.println("Please  give an input");
+		String text;
+		text = myReader.nextLine();
+		//Then I used split method
+		//It is regex space
+		splited = text.split("\\s+");
+
+		// We started to inserting here
 		
-		
-		System.out.println("max cap1 "+ st.getM());
-		System.out.println("max cap "+ t.getM());
-		System.out.println("\n");
-		Maxs=st.FindMaxs();
-		int m=t.get(Maxs.get(0).key.toString());
-		
-		System.out.println("\n\n m "+ m%t.getM());
+		//While making test for each hash types I commended the other one to find specific 
+		//and right values.
+		if(!text.isEmpty()) {
+
+			for(int i=0;i<splited.length;i++) {  
+
+				linearProbing.put(splited[i], splited[i].hashCode());
+				separateChaining.put(splited[i], splited[i].hashCode());
+			}
+
+			//We get the max used 3 nodes using arrayList.
+			//I only used this array list to store Nodes there are no usage other than that
+			ArrayList<Node> Maxs = new ArrayList<Node>(3);
+			System.out.println("Final table sizes for linear probing and separate chaining are "+linearProbing.getM()+" and "+ separateChaining.getM()+".\n"
+					+ "Top 3 most used words, their indexes for linear probing, their node indexes for separate chaining and their number of occurrences:");
+
+			Maxs=separateChaining.FindMaxs();
+			int m;
+			int k;
+			
+			//At this point I make a search on hash tables.
+			//I used array list to get key values of max 3 words. 
+			for(int n=0;n<Maxs.size();n++) {
+				m=linearProbing.findIndex(Maxs.get(n).key.toString());
+				k=separateChaining.findIndex(Maxs.get(n).key.toString());
+				System.out.println(Maxs.get(n).key+" "+ m+" "+k+" "+Maxs.get(n).repeat);
+
+
+			}
+
+		}else {
+
+			System.out.println("Empty Input! Please give another input next time");
+			return ;
+		}
+
 	}
 
 }

@@ -1,79 +1,94 @@
+//-----------------------------------------------------
+// Title: Sequential Search ST (Linked List)
+// Author: Gökmen ÇAĞLAR
+// ID: 12590403284
+// Section: 1
+// Assignment: 1
+// Description: This class is basically stores and defines the  SeparateChainingHashST 
+// class chains. So it is basically the chain class
+//-----------------------------------------------------
 
 
 public class SequentialSearchST<Key, Value> {
-	private int n;           // number of key-value pairs
-	public Node first;      // the linked list of key-value pairs
+	// number of key-value pairs
+	private int n;           
+	// the linked list of key-value pairs
+	public Node first;      
 	public Node current;
-	// a helper linked list data type
-//	public class Node {
-//		public Key key;
-//		public Value val;
-//		public Node next;
-//		public int repeat;
-//
-//		public Node(Key key, Value val, Node next)  {
-//			current=null;
-//			this.key  = key;
-//			this.val  = val;
-//			this.next = next;
-//			repeat=1;
-//		}
-//	}
-	
-	
-	/**
-	 * Initializes an empty symbol table.
-	 */
+
+
 	public SequentialSearchST() {
+		//--------------------------------------------------------
+		// Summary: empty constrctor.Initializes an empty symbol table. 
+		//--------------------------------------------------------
 	}
 
-	/**
-	 * Returns the number of key-value pairs in this symbol table.
-	 * @return the number of key-value pairs in this symbol table
-	 */
 	public int size() {
+		//--------------------------------------------------------
+		// Summary: Returns the number of key-value pairs in this symbol table
+		// with using n integer
+		// Postcondition: returns n
+		//--------------------------------------------------------
 		return n;
 	}
 
-	/**
-	 * Is this symbol table empty?
-	 * @return {@code true} if this symbol table is empty and {@code false} otherwise
-	 */
+
 	public boolean isEmpty() {
+		//--------------------------------------------------------
+		// Summary: Checks if its empty or not
+		// Postcondition: returns boolean
+		//--------------------------------------------------------
 		return size() == 0;
 	}
 
-	/**
-	 * Does this symbol table contain the given key?
-	 * @param key the key
-	 * @return {@code true} if this symbol table contains {@code key} and
-	 *     {@code false} otherwise
-	 */
-	public boolean contains(Key key) {
-		return get(key) != null;
-	}
 
-	/**
-	 * Returns the value associated with the given key.
-	 * @param key the key
-	 * @return the value associated with the given key if the key is in the symbol table
-	 *     and {@code null} if the key is not in the symbol table
-	 */
+
 	public Value get(Key key) {
+		//--------------------------------------------------------
+		// Summary: Search for the given key if it finds it returns the value
+		// Precondition: takes key as parameter
+		// Postcondition: returns value
+		//--------------------------------------------------------
 		for (Node x = first; x != null; x = x.next) {
 			if (key.equals(x.key))
 				return (Value) x.val;
 		}
 		return null;
 	}
-	
+
 	public int getRep(Key key) {
+		//--------------------------------------------------------
+		// Summary: I design this method to get the repetition number
+		// it goes the end of the linked list until to find the key and then return the repetition number
+		// Precondition: takes key as parameter
+		// Postcondition: returns repetition int
+		//--------------------------------------------------------
+		
 		for (Node x = first; x != null; x = x.next) {
 			if (key.equals(x.key))
 				return x.repeat;
 		}
 		return -1;
 	}
+
+	public int findIndex(Key key) {
+		//--------------------------------------------------------
+		// Summary: It is basically passes through all nodes until it finds to key
+		// since we need the index of the node.When we find key return its index
+		// Precondition: takes key as parameter
+		// Postcondition: returns index int
+		//--------------------------------------------------------
+		int ind=0;
+		for (Node x = first; x != null; x = x.next) {
+			if (key.equals(x.key))
+				return ind;
+			ind++;
+		}
+
+		return -1;
+	}
+
+
 
 	/**
 	 * Inserts the key-value pair into the symbol table, overwriting the old value
@@ -83,8 +98,16 @@ public class SequentialSearchST<Key, Value> {
 	 * @param val the value
 	 */
 	public boolean put(Key key, Value val) {
+		//--------------------------------------------------------
+		// Summary: It puts the key- value pair to the end of the linked list.
+		// Since we need to go end of the linked list at the same time we check for
+		// repeat case same time. to Notify the parent separate Chaining class
+		// we return boolean 
+		// Precondition: it takes key and value
+		// Postcondition: returns the validation boolean
+		//--------------------------------------------------------
+		
 		if (val == null) {
-			delete(key);
 			return false;
 		}
 		if(first==null) {
@@ -101,7 +124,7 @@ public class SequentialSearchST<Key, Value> {
 				if (key.equals(x.key)) {
 					x.val = val;
 					x.repeat++;
-					System.out.println("repeat "+x.key+" "+ +x.repeat);
+					//System.out.println("repeat "+x.key+" "+ +x.repeat);
 					return false;
 				}
 				pre=x;
@@ -115,9 +138,20 @@ public class SequentialSearchST<Key, Value> {
 			return true;
 		}
 	}
-	
+
 	public boolean put(Key key, Value val, int res) {
-	
+		//--------------------------------------------------------
+		// Summary:It is the same thing with upper put method but I use this for resize case
+		// while resizing we need to keep repetition this way we can put old values back to list		
+		// It puts the key- value pair to the end of the linked list.
+		// Since we need to go end of the linked list at the same time we check for
+		// repeat case same time. to Notify the parent separate Chaining class
+		// we return boolean 
+		// Precondition: it takes key and value, res integer
+		// Postcondition: returns the validation boolean
+		//--------------------------------------------------------
+		
+
 		if(first==null) {
 			first = new Node(key, val, null);
 			first.repeat=res;
@@ -133,7 +167,7 @@ public class SequentialSearchST<Key, Value> {
 				if (key.equals(x.key)) {
 					x.val = val;
 					x.repeat++;
-					System.out.println("repeat "+x.key+" "+ +x.repeat);
+					//System.out.println("repeat "+x.key+" "+ +x.repeat);
 					return false;
 				}
 				pre=x;
@@ -149,42 +183,17 @@ public class SequentialSearchST<Key, Value> {
 		}
 	}
 
-	/**
-	 * Removes the key and associated value from the symbol table
-	 * (if the key is in the symbol table).
-	 * @param key the key
-	 */
-	public void delete(Key key) {
-		first = delete(first, key);
-	}
 
-	// delete key in linked list beginning at Node x
-	// warning: function call stack too large if table is large
-	private Node delete(Node x, Key key) {
-		if (x == null) return null;
-		if (key.equals(x.key)) {
-			n--;
-			return x.next;
-		}
-		x.next = delete(x.next, key);
-		return x;
-	}
-
-
-	/**
-	 * Returns all keys in the symbol table as an {@code Iterable}.
-	 * To iterate over all of the keys in the symbol table named {@code st},
-	 * use the foreach notation: {@code for (Key key : st.keys())}.
-	 * @return all keys in the symbol table as an {@code Iterable}
-	 */
 	public Iterable<Key> keys()  {
+		//--------------------------------------------------------
+		// Summary:Returns all keys in the symbol table as an To iterate over all of the keys 
+		// in the symbol table. Also uses queue to keep these keys and values
+		// Postcondition: return all keys in the symbol table as an Iterable
+		//--------------------------------------------------------
 		Queue<Key> queue = new Queue<Key>();
 		for (Node x = first; x != null; x = x.next)
 			queue.enqueue((Key) x.key);
 		return queue;
-	}
+	}	
 
-
-	
-	
 }
